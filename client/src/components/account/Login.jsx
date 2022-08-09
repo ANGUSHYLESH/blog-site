@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Box, TextField, Button, styled, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import { API } from "../../service/api";
+import { DataContext } from "../../context/DataProvider";
 
 const Component = styled(Box)`
   width: 400px;
@@ -63,21 +65,28 @@ const signupInitialValues = {
   password: "",
 };
 
-// const loginInitialValues = {
-//   username: "",
-//   password: "",
-// };
+const loginInitialValues = {
+  username: "",
+  password: "",
+};
 
-const Login = () => {
+const Login = ({ isUserAuthenticated }) => {
   const imageURL =
     "https://www.sesta.it/wp-content/uploads/2021/03/logo-blog-sesta-trasparente.png";
 
   const [account, toggleAccount] = useState("login");
   const [error, showError] = useState("");
   const [signup, setSignup] = useState(signupInitialValues);
+  const [login, setLogin] = useState(loginInitialValues);
 
+  const navigate = useNavigate();
+  const { setAccount } = useContext(DataContext);
   const toggleSignUp = () => {
     account === "signup" ? toggleAccount("login") : toggleAccount("signup");
+  };
+
+  const onValueChange = (e) => {
+    setLogin({ ...login, [e.target.name]: e.target.value });
   };
 
   const onInputChange = (e) => {
@@ -94,18 +103,59 @@ const Login = () => {
       showError("Something went wrong! please try again later");
     }
   };
+
+  const loginUser = async () => {
+    let response = await API.userLogin(login);
+    if (response.isSuccess) {
+      showError("");
+
+      sessionStorage.setItem(
+        "accessToken",
+        `Bearer ${response.data.accessToken}`
+      );
+      sessionStorage.setItem(
+        "refreshToken",
+        `Bearer ${response.data.refreshToken}`
+      );
+
+      setAccount({
+        name: response.data.name,
+        username: response.data.username,
+      });
+      isUserAuthenticated(true);
+      setLogin(loginInitialValues);
+      navigate("/");
+    } else {
+      showError("Something went wrong! please try again later");
+    }
+  };
+
   return (
     <Component>
       <Box>
         <Image src={imageURL} alt="blog" />
         {account === "login" ? (
           <Wrapper>
-            <TextField variant="standard" label="Enter username" />
-            <TextField variant="standard" label="Enter password" />
+            <TextField
+              variant="standard"
+              label="Enter username"
+              name="username"
+              value={login.username}
+              onChange={(e) => onValueChange(e)}
+            />
+            <TextField
+              variant="standard"
+              label="Enter password"
+              name="password"
+              value={login.password}
+              onChange={(e) => onValueChange(e)}
+            />
 
             {error && <Error>{error}</Error>}
 
-            <LoginButton variant="contained">Login</LoginButton>
+            <LoginButton variant="contained" onClick={() => loginUser()}>
+              Login
+            </LoginButton>
             <Text style={{ textAlign: "center" }}>OR</Text>
             <SignupButton onClick={() => toggleSignUp()}>
               Create an account
