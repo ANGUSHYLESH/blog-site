@@ -55,7 +55,7 @@ const initialPost = {
 
 
 const CreatePost = () => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const location = useLocation();
 
 
@@ -91,6 +91,15 @@ const CreatePost = () => {
         setPost({ ...post, [e.target.name]: e.target.value })
     };
 
+    const savePost = async () => {
+        console.log(post);
+        let response = await API.createPost(post)
+        if (response.isSuccess) {
+            navigate('/');
+        }
+
+
+    }
 
     return (
         <Container>
@@ -106,7 +115,7 @@ const CreatePost = () => {
                     type="file" name="" id="fileInput" style={{ display: "none" }} onChange={(e) => { setFile(e.target.files[0]) }} />
 
                 <InputTextField placeholder="Enter your Title" onChange={(e) => handleChange(e)} name="title" />
-                <Button variant="contained">Publish</Button>
+                <Button variant="contained" onClick={() => savePost()} >Publish</Button>
             </StyledFormControl>
             <TextArea
                 minRows={5}

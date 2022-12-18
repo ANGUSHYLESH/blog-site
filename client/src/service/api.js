@@ -2,6 +2,9 @@ import axios from "axios";
 
 import { API_NOTIFICATION_MESSAGES, SERVICE_URLS } from "../constants/config";
 
+import { getAccessToken } from "../utils/common-utils";
+
+
 const API_URL = 'http://localhost:8000';
 
 const axiosInstance = axios.create({
@@ -79,7 +82,9 @@ for (const [key, value] of Object.entries(SERVICE_URLS)) {
       url: value.url,
       data: body,
       responseType: value.responseType,
-
+      headers: {
+        authorization: getAccessToken()
+      },
       onUploadProgress: function (progressEvent) {
         if (showUploadProgress) {
           let percentCompleted = Math.round(
