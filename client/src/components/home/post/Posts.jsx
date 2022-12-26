@@ -10,6 +10,7 @@ const Posts = () => {
 
     const [searchParams] = useSearchParams();
     const category = searchParams.get('category');
+    // console.log(category);
 
     useEffect(() => {
         const fetchData = async () => {
