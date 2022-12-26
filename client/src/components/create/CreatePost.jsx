@@ -87,7 +87,7 @@ const CreatePost = () => {
 
 
     const handleChange = (e) => {
-        console.log("Post started");
+      
         setPost({ ...post, [e.target.name]: e.target.value })
     };
 
