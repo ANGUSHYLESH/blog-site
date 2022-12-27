@@ -8,6 +8,10 @@ import { Delete, Edit } from '@mui/icons-material';
 import { API } from '../../service/api';
 import { DataContext } from '../../context/DataProvider';
 
+//comments
+
+import Comments from './comments/Comments';
+
 const Container = styled(Box)(({ theme }) => ({
     margin: '50px 100px',
     [theme.breakpoints.down('md')]: {
@@ -107,7 +111,7 @@ const Detail = () => {
             </Author>
 
             <Typography>{post.description}</Typography>
-            {/* <Comments post={post} /> */}
+            <Comments post={post} />
         </Container>
     )
 }

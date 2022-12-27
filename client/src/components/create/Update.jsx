@@ -114,7 +114,7 @@ const Update = () => {
 
     return (
         <Container>
-            <Image src={URL} alt="Post_images" />
+            <Image src={post.picture || URL} alt="post" />
 
             <StyledFormControl>
 
