@@ -4,8 +4,8 @@ import Post from "../model/post.js";
 
 export const createPost = async (request, response) => {
     try {
-       const post= new Post(request.body);
-       post.save();
+        const post = new Post(request.body);
+        post.save();
         response.status(200).json('Post saved successfully');
 
     } catch (error) {
@@ -13,7 +13,7 @@ export const createPost = async (request, response) => {
     }
 }
 
-export const getAllPosts = async(request, response)=>{
+export const getAllPosts = async (request, response) => {
 
     let username = request.query.username;
     let category = request.query.category;
@@ -29,6 +29,20 @@ export const getAllPosts = async(request, response)=>{
         response.status(200).json(posts);
     } catch (error) {
         response.status(500).json(error)
+    }
+
+}
+
+export const getPost = async (request, response) => {
+
+    try {
+
+        const post = await Post.findById(request.params.id);
+
+        return response.status(200).json(post)
+
+    } catch (error) {
+        return response.status(500).json({ msg: "Error in fetching" })
     }
 
 }
