@@ -46,3 +46,40 @@ export const getPost = async (request, response) => {
     }
 
 }
+
+export const updatePost = async (request, response) => {
+
+
+    try {
+
+        const post = await Post.findById(request.params.id);
+
+        if (!post) {
+            return response.status(404).json({ msg: "post unavailable" })
+        }
+
+        await Post.findByIdAndUpdate(request.params.id, { $set: request.body })
+        return response.status(200).json({ msg: "Post Updated Successfully" })
+
+    } catch (error) {
+        return response.status(500).json({ msg: "Error in Updating post" })
+    }
+
+}
+
+
+export const deletePost = async (request, response) => {
+    try {
+
+
+        const post = await Post.findById(request.params.id);
+        if (!post) {
+            return response.status(404).json({ msg: "post unavailable" })
+        }
+        await post.delete();
+        return response.status(200).json({ msg: "Post Deleted Successfully" })
+
+    } catch (error) {
+        return response.status(500).json({ msg: "Error in Deleting post" })
+    }
+}
