@@ -5,10 +5,12 @@ import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom
 
 import Login from "./components/account/Login";
 import Home from "./components/home/Home";
+import About from "./components/about/About";
 import Header from "./components/header/Header";
 import CreatePost from "./components/create/CreatePost";
 import Update from "./components/create/Update"
 import Detail from "./components/details/Detail";
+import Contact from "./components/contact/Contact";
 
 
 
@@ -18,6 +20,7 @@ function App() {
     return isAuthenticated && token ? (
       <>
         <Header />
+
         <Outlet />
       </>
     ) : (
@@ -49,6 +52,14 @@ function App() {
             <Route path="/update/:id" element={<PrivateRoute isAuthenticated={isAuthenticated} />} >
               <Route path="/update/:id" element={<Update />} />
             </Route>
+
+            <Route path="/about" element={<PrivateRoute isAuthenticated={isAuthenticated} />} >
+              <Route path="/about" element={<About />} />
+            </Route>
+            <Route path="/contact" element={<PrivateRoute isAuthenticated={isAuthenticated} />} >
+              <Route path="/contact" element={<Contact />} />
+            </Route>
+
           </Routes>
         </div>
       </BrowserRouter>

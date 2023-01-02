@@ -4,7 +4,6 @@ import cors from "cors"
 import bodyParser from "body-parser";
 import Connection from "./database/db.js";
 import Router from "./routes/route.js"
-
 dotenv.config()
 
 const app = express()
@@ -26,6 +25,5 @@ app.listen(PORT, (req, res) => {
     console.log("Server is running on port " + PORT);
 });
 
-const username = process.env.DB_USERNAME
-const password = process.env.DB_PASSWORD
-Connection(username, password)
+
+Connection()

@@ -20,7 +20,7 @@ const Container = styled(Toolbar)`
 const Header = () => {
   // const navigate = useNavigate();
 
-//   const logout = async () => navigate("/account");
+  // const logout = async () => navigate("/account");
 
   return (
     <Component>
